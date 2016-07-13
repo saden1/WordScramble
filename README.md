@@ -1,3 +1,5 @@
+# Word Scramble Score
+
 ## Problem Statement
 
 A popular item in the local paper is the word scramble. In this puzzle, a reader is presented with a series of letters that are for a scrambled word, e.g. "rwod" can be unscrambled to "word". Your job is to write a program that will score the difficulty of any particular scrambling of a word. The scores can be not, poor, fair or hard, depending on whether or not the scramble is not scrambled, easy to solve, a reasonable difficulty to solve or hard to solve, respectively.
@@ -16,7 +18,7 @@ Also, all double consonants are allowed, and, no other combinations are allowed.
 
 ## Logical Connectives
 
-| Word     | Ordered      |
+| Word     | Conjunction  |
 |----------|--------------|
 | if       | implication  |
 | and      | conjunction  |
@@ -63,21 +65,21 @@ The bellow table describes word sequence/combination used to determine if a scra
 
 
 
-# Running the Program
+## Running the Program
 
-## Requirements
+### Requirements
 
 1. JDK 8
 2. Maven 3.0.5 or above
 
-## With Sample Input
+### With Sample Input
 ```bash 
 mvn install
 cd target
 java -jar ScrambleScorer.jar
 ```
 
-## With Custom Input
+### With Custom Input
 
 ```bash
 mvn install
