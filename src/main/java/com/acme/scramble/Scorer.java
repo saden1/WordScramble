@@ -1,32 +1,32 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright 2016 Sharmarke Aden.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-package saden1.wordscramble;
+package com.acme.scramble;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.io.LineProcessor;
-import com.google.common.io.Resources;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 /**
  *
  * @author saden
  */
-public class WordScrambleScorer {
+public class Scorer {
 
     private final static Set<Character> VOWELS;
-
     private final static Set<Character> CONSONANTS;
-
     private final static Set<String> COMBINATION;
 
     static {
@@ -48,80 +48,7 @@ public class WordScrambleScorer {
         );
     }
 
-    public static void main(String[] args) throws URISyntaxException, IOException {
-        WordScrambleScorer scorer = new WordScrambleScorer();
-
-        File file;
-
-        if (args == null || args.length == 0) {
-            file = new File(args[0]);
-        } else {
-            file = new File(Resources.getResource("sample.txt").toURI());
-        }
-
-        Resources.readLines(file.toURI().toURL(), UTF_8, new LineProcessor< List<String>>() {
-            private final List<String> result = new LinkedList<>();
-
-            @Override
-            public boolean processLine(String line) throws IOException {
-                Score score = scorer.score(line);
-
-//                switch (score) {
-//                    case not:
-//                        System.out.println(String.format("%s is not a scramble of %s", scrambled, word));
-//                        break;
-//                    case poor:
-//                        System.out.println(String.format("%s is a poor scramble of %s", scrambled, word));
-//                        break;
-//                    case hard:
-//                        System.out.println(String.format("%s is a hard scramble of %s", scrambled, word));
-//                        break;
-//                    case fair:
-//                        System.out.println(String.format("%s is a fair scramble of %s", scrambled, word));
-//                        break;
-//                    default:
-//                        throw new AssertionError(score.name());
-//                }
-                
-                return true;
-            }
-
-            @Override
-            public List<String> getResult() {
-                return result;
-            }
-        });
-
-    }
-
-    public Score score(String line) {
-        String[] tokens = line.split(" ");
-        String scrambled = tokens[0];
-        String word = tokens[1];
-
-        Score score = analyze(scrambled, word);
-
-        switch (score) {
-            case not:
-                System.out.println(String.format("%s is not a scramble of %s", scrambled, word));
-                break;
-            case poor:
-                System.out.println(String.format("%s is a poor scramble of %s", scrambled, word));
-                break;
-            case hard:
-                System.out.println(String.format("%s is a hard scramble of %s", scrambled, word));
-                break;
-            case fair:
-                System.out.println(String.format("%s is a fair scramble of %s", scrambled, word));
-                break;
-            default:
-                throw new AssertionError(score.name());
-        }
-
-        return score;
-    }
-
-    Score analyze(String scrambled, String word) {
+    public Score score(String scrambled, String word) {
         if (!isScrambled(scrambled, word)) {
             return Score.not;
         }
@@ -130,13 +57,13 @@ public class WordScrambleScorer {
         boolean real = true;
 
         switch (scrambled.length()) {
-            case 1:
-                return Score.poor;
             case 2:
-                real = isAlternating(scrambled) || isCombination(scrambled) || isDoubleConsonants(word);
+                real = isAlternating(scrambled);
+                
                 break;
             case 3:
                 real = isCombination(scrambled);
+                
                 if (!ordered) {
                     ordered = scrambled.charAt(1) == word.charAt(2) && scrambled.charAt(2) == word.charAt(2);
                 }
@@ -167,12 +94,13 @@ public class WordScrambleScorer {
     }
 
     /**
-     * Determine if the give scramble string is scrambled variant of the given word. Returns false if the following
-     * conditions are not met:
+     * Determine if the give scramble string is scrambled variant of the given
+     * word. Returns false if the following conditions are not met:
      * <ul>
      * <li>the scramble and word are exactly the same</li>
      * <li>the scramble and the word are not the same size</li>
-     * <li>the scramble and the word do not have the same occurrences of characters (i.e. "MAPSA SPAMS").</li>
+     * <li>the scramble and the word do not have the same occurrences of
+     * characters (i.e. "MAPSA SPAMS").</li>
      * </ul>
      *
      * @param scramble the scramble string

@@ -1,8 +1,8 @@
 ## Problem Statement
 
-A popular item in the local paper is the word scramble.  In this puzzle, a reader is presented with a series of letters that are for a scrambled word, e.g. “rwod” can be unscrambled to “word”.  Your job is to write a program that will score the difficulty of any particular scrambling of a word.  The scores can be not, poor, fair or hard, depending on whether or not the scramble is not scrambled, easy to solve, a reasonable difficulty to solve or hard to solve, respectively.
+A popular item in the local paper is the word scramble. In this puzzle, a reader is presented with a series of letters that are for a scrambled word, e.g. "rwod" can be unscrambled to "word". Your job is to write a program that will score the difficulty of any particular scrambling of a word. The scores can be not, poor, fair or hard, depending on whether or not the scramble is not scrambled, easy to solve, a reasonable difficulty to solve or hard to solve, respectively.
 
-Word scrambles can be judged by a set of heuristics including if the word looks real or if the scramble has letters in the correct place.  A scramble looks like a real word if the letters alternate between vowels and consonants (with ‘Y’ being a vowel for this purpose).  However, certain combinations of vowels and consonants are allowed:
+Word scrambles can be judged by a set of heuristics including if the word looks real or if the scramble has letters in the correct place. A scramble looks like a real word if the letters alternate between vowels and consonants (with ‘Y’ being a vowel for this purpose). However, certain combinations of vowels and consonants are allowed:
 
 |    |     |     |    |     |    |    |    |    |    |
 |:--:|:---:|:---:|:--:|:---:|:--:|:--:|:--:|:--:|:--:|
@@ -12,7 +12,7 @@ Word scrambles can be judged by a set of heuristics including if the word looks 
 | SC | SCH | SCR | SH | SHR | SK | SL | SM | SN | SP |
 | SQ |  ST |  SW | TH | THR | TR | TW | WH | WR |    |
 
-Also, all double consonants are allowed, and, no other combinations are allowed.  For instance, SWR doesn’t look real even though both SW and WR are independently looking real.
+Also, all double consonants are allowed, and, no other combinations are allowed. For instance, SWR doesn’t look real even though both SW and WR are independently looking real.
 
 
 ## Sample Input Score
