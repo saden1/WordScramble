@@ -16,6 +16,7 @@
 package com.acme.scramble;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 import com.google.common.io.LineProcessor;
 import com.google.common.io.Resources;
@@ -27,38 +28,37 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.List;
 
 /**
+ * A main class that takes sample input file path as an argument or loads one from the classpath.
  *
  * @author saden
  */
-public class ScorerMain implements LineProcessor<List<String>> {
+public class ScrambleScorerMain implements LineProcessor<List<String>> {
 
-    Scorer scorer = new Scorer();
+    ScrambleScorer scorer = new ScrambleScorer();
     ImmutableList.Builder<String> resultBuilder;
 
-    public ScorerMain(Scorer scorer, ImmutableList.Builder<String> resultBuilder) {
+    public ScrambleScorerMain(ScrambleScorer scorer, ImmutableList.Builder<String> resultBuilder) {
         this.scorer = scorer;
         this.resultBuilder = resultBuilder;
     }
 
     public static void main(String[] args) throws IOException, URISyntaxException {
-        ScorerMain scorerMain = new ScorerMain(new Scorer(), new ImmutableList.Builder<>());
-
-        File file;
+        ScrambleScorerMain scorerMain = new ScrambleScorerMain(new ScrambleScorer(), new ImmutableList.Builder<>());
 
         if (args == null || args.length == 1) {
-            file = new File(args[0]);
+            File file = new File(args[0]);
+            if (file.exists()) {
+                Files.readLines(file, UTF_8, scorerMain);
+                return;
+            }
+            
+            System.err.println("Input file '" + file + "' not found.");
         } else {
             URL resource = Resources.getResource("sample_input.txt");
-            file = new File(resource.toURI());
+            CharSource charSource = Resources.asCharSource(resource, UTF_8);
+            charSource.readLines(scorerMain);
         }
 
-        if (file.exists()) {
-            Files.readLines(file, UTF_8, scorerMain);
-
-            return;
-        }
-
-        System.err.println("Input file '" + file + "' not found.");
     }
 
     @Override

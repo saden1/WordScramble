@@ -20,10 +20,11 @@ import java.util.Arrays;
 import java.util.Set;
 
 /**
+ * A class for analyzing scramble word and scores its relative difficulty to solve.
  *
  * @author saden
  */
-public class Scorer {
+public class ScrambleScorer {
 
     private final static Set<Character> VOWELS;
     private final static Set<Character> CONSONANTS;
@@ -48,33 +49,40 @@ public class Scorer {
         );
     }
 
-    public Score score(String scrambled, String word) {
-        if (!isScrambled(scrambled, word)) {
+    /**
+     * Analyze and score the given scramble and word.
+     *
+     * @param scramble the scrambled word
+     * @param word the actual world
+     * @return the score given to the scrambled word
+     */
+    public Score score(String scramble, String word) {
+        if (!isScrambled(scramble, word)) {
             return Score.not;
         }
 
-        boolean ordered = scrambled.charAt(0) == word.charAt(0);
+        boolean ordered = scramble.charAt(0) == word.charAt(0);
         boolean real = true;
 
-        switch (scrambled.length()) {
+        switch (scramble.length()) {
             case 2:
-                real = isAlternating(scrambled);
-                
+                real = isAlternating(scramble);
+
                 break;
             case 3:
-                real = isCombination(scrambled);
-                
+                real = isCombination(scramble);
+
                 if (!ordered) {
-                    ordered = scrambled.charAt(1) == word.charAt(2) && scrambled.charAt(2) == word.charAt(2);
+                    ordered = scramble.charAt(1) == word.charAt(2) && scramble.charAt(2) == word.charAt(2);
                 }
                 break;
             default:
-                for (int i = 0, j = 1, k = 2; j < scrambled.length() - 1; i++, j++, k++) {
-                    String pre = scrambled.substring(i, k);
-                    String post = scrambled.substring(j, k + 1);
+                for (int i = 0, j = 1, k = 2; j < scramble.length() - 1; i++, j++, k++) {
+                    String pre = scramble.substring(i, k);
+                    String post = scramble.substring(j, k + 1);
 
                     if (!ordered) {
-                        ordered = scrambled.charAt(j) == word.charAt(j) && scrambled.charAt(k) == word.charAt(k);
+                        ordered = scramble.charAt(j) == word.charAt(j) && scramble.charAt(k) == word.charAt(k);
                     }
 
                     if (!isReal(pre, post)) {
@@ -94,13 +102,12 @@ public class Scorer {
     }
 
     /**
-     * Determine if the give scramble string is scrambled variant of the given
-     * word. Returns false if the following conditions are not met:
+     * Determine if the give scramble string is scrambled variant of the given word. Returns false if the following
+     * conditions are not met:
      * <ul>
      * <li>the scramble and word are exactly the same</li>
      * <li>the scramble and the word are not the same size</li>
-     * <li>the scramble and the word do not have the same occurrences of
-     * characters (i.e. "MAPSA SPAMS").</li>
+     * <li>the scramble and the word do not have the same occurrences of characters (i.e. "MAPSA SPAMS").</li>
      * </ul>
      *
      * @param scramble the scramble string
@@ -121,6 +128,13 @@ public class Scorer {
         return Arrays.equals(scrambles, words);
     }
 
+    /**
+     * Determine if any given pair of characters look real.
+     *
+     * @param pre the previous pair of characters
+     * @param post the next pair of characters
+     * @return true if the pairs look real
+     */
     boolean isReal(String pre, String post) {
         return (isAlternating(pre) && isAlternating(post))
                 || (isAlternating(pre) && isCombination(post))
@@ -128,6 +142,12 @@ public class Scorer {
                 || (isCombination(pre) && isCombination(post));
     }
 
+    /**
+     * Determine if a pair of characters alternate between a vowel and consonant and vice versa.
+     *
+     * @param pair the pair of characters
+     * @return true if the characters alternate
+     */
     boolean isAlternating(String pair) {
         char first = pair.charAt(0);
         char second = pair.charAt(1);
@@ -136,10 +156,23 @@ public class Scorer {
                 || (CONSONANTS.contains(first) && VOWELS.contains(second));
     }
 
+    /**
+     * Determine if a pair of characters are an allowed combination.
+     *
+     * @param pair the pair of characters
+     * @return true if the characters are an allowed combination
+     */
     boolean isCombination(String pair) {
+
         return COMBINATION.contains(pair);
     }
 
+    /**
+     * Determine if a pair of characters are both consonants
+     *
+     * @param pair the pair of characters.
+     * @return true if the characters are both consonants
+     */
     boolean isDoubleConsonants(String pair) {
         char first = pair.charAt(0);
         char second = pair.charAt(1);

@@ -14,10 +14,19 @@ Word scrambles can be judged by a set of heuristics including if the word looks 
 
 Also, all double consonants are allowed, and, no other combinations are allowed. For instance, SWR doesn’t look real even though both SW and WR are independently looking real.
 
+## Logical Connectives
+
+| Word     | Ordered      |
+|----------|--------------|
+| if       | implication  |
+| and      | conjunction  |
+| however  | conjunction  |
+| also     | conjunction  |
 
 ## Sample Input Score
+The following table describes analysis of the sample input data:
 
-| Scramble | Word  | Sound | Ordered | Real  | Score | Commment                |
+| Scramble | Word  | Sound | Ordered | Real  | Score | Comment                 |
 |----------|-------|-------|---------|-------|-------|-------------------------|
 | MAPS     | SPAM  | cvcc  | false   | false | fair  | not ordered & not real  |
 | RIONY    | IRONY | cvvcv | true    | true  | fair  | ordered & real          |
@@ -29,70 +38,50 @@ Also, all double consonants are allowed, and, no other combinations are allowed.
 ## Truth Tables
 
 ### Score Truth Table
-
 Return "not" if the following conditions are met:
+
 1. the scramble and word are exactly the same
 1. the scramble and the word are not the same size
 1. the scramble and the word do not have the same occurrences of characters (i.e. "MAPSA SPAMS").
 
 Otherwise use the below truth table to determine the score:
 
-|                  | Ordered (true) | Not ordered (false) |
-|------------------|----------------|---------------------|
-| Real (true)      | fair           | hard                |
-| Not Real (false) | poor           | fair                |
+|            | Ordered  | Not Ordered  |
+|------------|----------|--------------|
+| Real       | fair     | hard         |
+| Not Real   | poor     | fair         |
 
 
 ### Real Truth Table
-The bellow table describes word sequence that aid in determining if a word is real.
+The bellow table describes word sequence/combination used to determine if a scramble looks real:
 
 |                  | Alternating | Combination | Double Consonant |
 |------------------|-------------|-------------|------------------|
-| Alternating      | true        | true        | false            |
+| Alternating      | true        | true        | true             |
 | Combination      | true        | false       | false            |
 | Double Consonant | false       | false       | false            |
 
 
-### Input Permutations
 
-SWR: false
-SW - combination
-WR - combination
+# Running the Program
 
-MAPS SPAM: false
-MA - alternating
-AP - alternating
-PS - double consonant
+## Requirements
 
-RIONY IRONY: true
-RI - alternating
-IO - combination
-ON - alternating
-NY - alternating
+1. JDK 8
+2. Maven 3.0.5 or above
 
-ONYRI IRONY: true
-ON - alternating
-NY - alternating
-YR - alternating
-RI - alternating
+## With Sample Input
+```bash 
+mvn install
+cd target
+java -jar ScrambleScorer.jar
+```
 
-INOYR IRONY: true
-IN - alternating
-NO - alternating
-OY - combination
-YR - alternating
+## With Custom Input
 
-IOYRN IRONY: false
-IO - combination
-OY - combination
-YR - alternating
-RN - double consonant
+```bash
+mvn install
+cd target
+java -jar ScrambleScorer.jar $INPUT_FILE
 
-
-alternating && alternating = true
-alternative && double constant = false
-alternative && combination = true
-combination && alternative = true
-combination && combination = true
-double constant && double constant = false
-
+```

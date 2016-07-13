@@ -25,20 +25,21 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * A unit test for the ScrambleScorer main class.
  *
  * @author saden
  */
-public class ScorerMainTest {
+public class ScrambleScorerMainTest {
 
-    ScorerMain cut;
-    Scorer scorer;
+    ScrambleScorerMain cut;
+    ScrambleScorer scorer;
     ImmutableList.Builder<String> resultBuilder;
 
     @Before
     public void init() {
-        scorer = new Scorer();
+        scorer = new ScrambleScorer();
         resultBuilder = new ImmutableList.Builder<>();
-        cut = new ScorerMain(scorer, resultBuilder);
+        cut = new ScrambleScorerMain(scorer, resultBuilder);
     }
 
     @Test
@@ -46,10 +47,10 @@ public class ScorerMainTest {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         System.setErr(new PrintStream(outputStream));
 
-        String[] args = new String[]{"target/test-classes/does_not_exist.txt"};
+        String[] args = new String[]{"target/classes/does_not_exist.txt"};
         cut.main(args);
         assertThat(outputStream.toString())
-                .contains("Input file 'target/test-classes/does_not_exist.txt' not found.");
+                .contains("Input file 'target/classes/does_not_exist.txt' not found.");
     }
 
     @Test
@@ -60,7 +61,7 @@ public class ScorerMainTest {
 
     @Test
     public void callToMainWithExistingFileShouldLoadFile() throws IOException, URISyntaxException {
-        String[] args = new String[]{"target/test-classes/sample_input.txt"};
+        String[] args = new String[]{"target/classes/sample_input.txt"};
         cut.main(args);
     }
 

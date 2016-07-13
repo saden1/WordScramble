@@ -28,17 +28,18 @@ import static com.acme.scramble.Score.hard;
 import static com.acme.scramble.Score.fair;
 
 /**
+ * A unit test for the scorer class.
  *
  * @author saden
  */
 @RunWith(DataProviderRunner.class)
-public class ScorerTest {
+public class ScrambleScorerTest {
 
-    Scorer cut;
+    ScrambleScorer cut;
 
     @Before
     public void init() {
-        cut = new Scorer();
+        cut = new ScrambleScorer();
     }
 
     @DataProvider

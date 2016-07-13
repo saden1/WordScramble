@@ -18,6 +18,7 @@ package com.acme.scramble;
 import static java.lang.String.format;
 
 /**
+ * An enumeration class that contains possible scores given to a scrambled word.
  *
  * @author saden
  */
@@ -33,14 +34,23 @@ public enum Score {
         this.messageFormat = messageFormat;
     }
 
-    public String getMessageFormat() {
-        return messageFormat;
-    }
-
+    /**
+     * Get a human readable message of the score using the given scramble and word.
+     *
+     * @param scramble the scrambled word
+     * @param word the word
+     * @return a human readable string
+     */
     public String getMessage(String scramble, String word) {
-        return format(getMessageFormat(), scramble, word);
+        return format(messageFormat, scramble, word);
     }
 
+    /**
+     * Print the score with the given scramble and word to standard out.
+     *
+     * @param scramble the scrambled word
+     * @param word the word
+     */
     public void println(String scramble, String word) {
         System.out.println(getMessage(scramble, word));
     }
