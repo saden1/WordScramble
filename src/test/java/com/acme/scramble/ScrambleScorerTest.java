@@ -71,10 +71,10 @@ public class ScrambleScorerTest {
 
     @UseDataProvider("sampleInput")
     @Test
-    public void givenSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score score) {
+    public void givenSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score expectedScore) {
         Score result = cut.score(scramble, word);
 
-        assertThat(result).isEqualTo(score);
+        assertThat(result).isEqualTo(expectedScore);
     }
 
     @DataProvider
@@ -89,10 +89,10 @@ public class ScrambleScorerTest {
 
     @Test
     @UseDataProvider("nonRealSampleInput")
-    public void givenNonRealSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score score) {
+    public void givenNonRealSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score expectedScore) {
         Score result = cut.score(scramble, word);
 
-        assertThat(result).isEqualTo(score);
+        assertThat(result).isEqualTo(expectedScore);
     }
 
     @DataProvider
@@ -113,9 +113,9 @@ public class ScrambleScorerTest {
 
     @Test
     @UseDataProvider("extendedSampleInput")
-    public void givenExtendedSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score score) {
+    public void givenExtendedSampleInputScoreShouldReturnExpectedAnswer(String scramble, String word, Score expectedScore) {
         Score result = cut.score(scramble, word);
 
-        assertThat(result).isEqualTo(score);
+        assertThat(result).isEqualTo(expectedScore);
     }
 }
